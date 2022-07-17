@@ -1,6 +1,8 @@
 package com.graphql.data;
 
 import com.graphql.data.model.Person;
+import com.graphql.data.model.PersonFullNameProjection;
+import com.graphql.data.model.PersonProjection;
 import com.graphql.data.model.QPerson;
 import com.graphql.data.repositories.PersonRepository;
 import graphql.schema.DataFetcher;
@@ -27,11 +29,13 @@ public class GraphqlDataDslApplication {
     }
 
     // equivalent to put @GraphQlRepository over QuerydslPredicateExecutor or ReactiveQuerydslPredicateExecutor repository
-//    @Bean
+    @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer(PersonRepository personRepository) {
         return builder -> {
             val singlePersonFetcher = QuerydslDataFetcher.builder(personRepository).single();
-            DataFetcher<Flux<Person>> manyPersonsFetcher = QuerydslDataFetcher.builder(personRepository).many();
+            DataFetcher<Flux<PersonFullNameProjection>> manyPersonsFetcher = QuerydslDataFetcher.builder(personRepository)
+                    .projectAs(PersonFullNameProjection.class)
+                    .many();
             builder.type("Query", wiring -> wiring
                     .dataFetcher("person", singlePersonFetcher)
                     .dataFetcher("persons", manyPersonsFetcher)
