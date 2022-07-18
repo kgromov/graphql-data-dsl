@@ -38,6 +38,11 @@ public class GraphqlDataDslApplication {
                     .many();
             builder.type("Query", wiring -> wiring
                     .dataFetcher("person", singlePersonFetcher)
+                    // traditional approach can be used as well
+                   /* .dataFetcher("personByFirstName", env -> {
+                        String firstName = env.getArgument("firstName");
+                        return personRepository.findByFirstName(firstName);
+                    })*/
                     .dataFetcher("persons", manyPersonsFetcher)
             );
         };

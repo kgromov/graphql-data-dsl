@@ -1,6 +1,6 @@
 type Query {
+    # at runtime converted to repository interface method
     personById(id: ID): Person
-    # on runtime converted to repository interface method
     personByFirstName(firstName: String): Person
     personByLastName(lastName: String): Person
     persons: [Person]
@@ -9,5 +9,7 @@ type Query {
 type Person {
     id: ID,
     firstName: String,
-    lastName: String
+    lastName: String,
+    # anyway should be secified
+    fullName: String
 }
